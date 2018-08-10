@@ -7,6 +7,22 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            
+        </Menu>
         
+        <Grid Grid.Row="1">
+            
+        </Grid>
+        
+        <StatusBar Grid.Row="2">
+            
+        </StatusBar>
     </Grid>
 </Window>
