@@ -18,6 +18,8 @@
                 <MenuItem Header="File" Click="CreateNewProject"/>
                 <MenuItem Header="Save" Click="SaveToFile"/>
                 <MenuItem Header="Load" Click="LoadFromFile"/>
+                <Separator/>
+                <MenuItem Header="Export" Click="ExportProject"/>
             </MenuItem>
         </Menu>
         

@@ -53,12 +53,14 @@ namespace LocalizeBuilder.src
             CommandSaveToFile = new RelayCommand(SaveToFile);
             CommandLoadFromFile = new RelayCommand(LoadFromFile);
             CommandCreateNewProject = new RelayCommand(CreateNewProject);
+            CommandExportProject = new RelayCommand(ExportProject);
         }
         //Commands
         public RelayCommand CommandAddLanguage { get; set; }
         public RelayCommand CommandSaveToFile { get; set; }
         public RelayCommand CommandLoadFromFile { get; set; }
         public RelayCommand CommandCreateNewProject { get; set; }
+        public RelayCommand CommandExportProject { get; set; }
         //Methods
         public static ViewModel GetInstance()
         {
@@ -98,6 +100,13 @@ namespace LocalizeBuilder.src
             SelectedLanguage = null;
             LanguageDatas.Clear();
             ProjectPath = null;
+        }
+        private void ExportProject(object param)
+        {
+            if (!(param is string path))
+                throw new Exception();
+            CsCreator creator = new CsCreator();
+            creator.CreateCsFile(path, "Macro", LanguageDatas.ToList()); // temp
         }
     }
 }

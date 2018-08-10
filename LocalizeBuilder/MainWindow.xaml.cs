@@ -59,5 +59,15 @@ namespace LocalizeBuilder
         {
             src.ViewModel.GetInstance().CommandCreateNewProject.Execute(null);
         }
+        private void ExportProject(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog export = new SaveFileDialog();
+            export.Filter = "Project file (*.cs)|*cs";
+            export.DefaultExt = ".cs";
+            if ((bool)export.ShowDialog())
+            {
+                src.ViewModel.GetInstance().CommandExportProject.Execute(export.FileName);
+            }
+        }
     }
 }
