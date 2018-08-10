@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,40 @@ namespace LocalizeBuilder
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = src.ViewModel.GetInstance();
+        }
+
+        private void SaveToFile(object sender, RoutedEventArgs e)
+        {
+            if (src.ViewModel.GetInstance().ProjectPath == null)
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.RestoreDirectory = true;
+                saveFile.Filter = "Project file (*.lcb)|*lcb";
+                saveFile.DefaultExt = ".lcb";
+                if ((bool)saveFile.ShowDialog())
+                {
+                    src.ViewModel.GetInstance().CommandSaveToFile.Execute(saveFile.FileName);
+                }
+            }
+            else
+            {
+                src.ViewModel.GetInstance().CommandSaveToFile.Execute(src.ViewModel.GetInstance().ProjectPath);
+            }
+        }
+        private void LoadFromFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.RestoreDirectory = true;
+            fileDialog.Filter = "Project file (*.lcb)|*lcb";
+            if ((bool)fileDialog.ShowDialog())
+            {
+                src.ViewModel.GetInstance().CommandLoadFromFile.Execute(fileDialog.FileName);
+            }
+        }
+        private void CreateNewProject(object sender, RoutedEventArgs e)
+        {
+            src.ViewModel.GetInstance().CommandCreateNewProject.Execute(null);
         }
     }
 }

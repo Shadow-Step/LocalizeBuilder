@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LocalizeBuilder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding StringFormat=LocalizeBuilder - {0}, Path=ProjectPath, TargetNullValue=LocalizeBuilder}" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -14,12 +14,16 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
-            
+            <MenuItem Header="File">
+                <MenuItem Header="File" Click="CreateNewProject"/>
+                <MenuItem Header="Save" Click="SaveToFile"/>
+                <MenuItem Header="Load" Click="LoadFromFile"/>
+            </MenuItem>
         </Menu>
         
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="0.25*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -27,21 +31,21 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <DataGrid AutoGenerateColumns="False" Grid.Row="0">
+                    <DataGrid AutoGenerateColumns="False" Grid.Row="0" ItemsSource="{Binding Path=LanguageDatas}" SelectedItem="{Binding Path=SelectedLanguage}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="first column" Width="*"/>
+                            <DataGridTextColumn Header="Long Name" Width="*" Binding="{Binding LongName}"/>
+                            <DataGridTextColumn Header="Short Name" Width="0.75*" Binding="{Binding ShortName}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Grid.Row="1" Margin="0 5 0 0" Content="button"/>
                 </Grid>
             </GroupBox>
+            
             <GroupBox Header="right" Grid.Column="1">
-                <DataGrid AutoGenerateColumns="False">
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=SelectedLanguage.Strings}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="frist column" Width="150"/>
-                        <DataGridTextColumn Header="second column" Width="*"/>
+                        <DataGridTextColumn Header="Key" Width="150" Binding="{Binding Key}"/>
+                        <DataGridTextColumn Header="Value" Width="*" Binding="{Binding Value}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
