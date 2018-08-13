@@ -53,12 +53,16 @@ namespace LocalizeBuilder.src
             CommandSaveToFile = new RelayCommand(SaveToFile);
             CommandLoadFromFile = new RelayCommand(LoadFromFile);
             CommandCreateNewProject = new RelayCommand(CreateNewProject);
+            CommandExportProject = new RelayCommand(ExportProject);
+            CommandSynchronize = new RelayCommand(Synchronize);
         }
         //Commands
         public RelayCommand CommandAddLanguage { get; set; }
         public RelayCommand CommandSaveToFile { get; set; }
         public RelayCommand CommandLoadFromFile { get; set; }
         public RelayCommand CommandCreateNewProject { get; set; }
+        public RelayCommand CommandExportProject { get; set; }
+        public RelayCommand CommandSynchronize { get; set; }
         //Methods
         public static ViewModel GetInstance()
         {
@@ -67,7 +71,7 @@ namespace LocalizeBuilder.src
 
         private void AddLanguage(object param)
         {
-            LanguageDatas.Add(new LanguageData("asd","11"));
+            LanguageDatas.Add(new LanguageData(""));
             SelectedLanguage = LanguageDatas.Last();
         }
         private void SaveToFile(object param)
@@ -98,6 +102,28 @@ namespace LocalizeBuilder.src
             SelectedLanguage = null;
             LanguageDatas.Clear();
             ProjectPath = null;
+        }
+        private void ExportProject(object param)
+        {
+            if (!(param is string path))
+                throw new Exception();
+            CsCreator creator = new CsCreator();
+            creator.CreateCsFile(path, "Macro", LanguageDatas.ToList()); // temp
+        }
+        private void Synchronize(object param)
+        {
+            if (LanguageDatas.Count < 2)
+                return; // ! Return
+
+            var pattern = LanguageDatas.First();
+            for (int i = 1; i < LanguageDatas.Count; i++)
+            {
+                LanguageDatas[i].Strings.Clear();
+                foreach (var item in pattern.Strings)
+                {
+                    LanguageDatas[i].Strings.Add(new StringUnit(item.Key, $"!{item.Value}"));
+                }
+            }
         }
     }
 }

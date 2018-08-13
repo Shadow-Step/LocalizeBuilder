@@ -18,7 +18,10 @@
                 <MenuItem Header="File" Click="CreateNewProject"/>
                 <MenuItem Header="Save" Click="SaveToFile"/>
                 <MenuItem Header="Load" Click="LoadFromFile"/>
+                <Separator/>
+                <MenuItem Header="Export" Click="ExportProject"/>
             </MenuItem>
+            <MenuItem Header="Synch" Command="{Binding Path=CommandSynchronize}"/>
         </Menu>
         
         <Grid Grid.Row="1">
@@ -35,7 +38,6 @@
                     <DataGrid AutoGenerateColumns="False" Grid.Row="0" ItemsSource="{Binding Path=LanguageDatas}" SelectedItem="{Binding Path=SelectedLanguage}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Long Name" Width="*" Binding="{Binding LongName}"/>
-                            <DataGridTextColumn Header="Short Name" Width="0.75*" Binding="{Binding ShortName}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

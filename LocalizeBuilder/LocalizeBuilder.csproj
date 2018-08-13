@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\CsCreator.cs" />
     <Compile Include="src\INotifyWrapper.cs" />
     <Compile Include="src\LanguageData.cs" />
     <Compile Include="src\RelayCommand.cs" />
