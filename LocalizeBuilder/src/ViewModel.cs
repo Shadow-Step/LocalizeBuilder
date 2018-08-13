@@ -118,10 +118,17 @@ namespace LocalizeBuilder.src
             var pattern = LanguageDatas.First();
             for (int i = 1; i < LanguageDatas.Count; i++)
             {
-                LanguageDatas[i].Strings.Clear();
                 foreach (var item in pattern.Strings)
                 {
+                    var res = from x in LanguageDatas[i].Strings where x.Key == item.Key select x;
+                    if(res.Count() == 0)
                     LanguageDatas[i].Strings.Add(new StringUnit(item.Key, $"!{item.Value}"));
+                }
+                foreach (var item in LanguageDatas[i].Strings)
+                {
+                    var res = from x in pattern.Strings where x.Key == item.Key select x;
+                    if (res.Count() == 0)
+                        pattern.Strings.Add(new StringUnit(item.Key, $"!{item.Value}"));
                 }
             }
         }
