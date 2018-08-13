@@ -10,18 +10,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
-            <MenuItem Header="File">
-                <MenuItem Header="File" Click="CreateNewProject"/>
-                <MenuItem Header="Save" Click="SaveToFile"/>
-                <MenuItem Header="Load" Click="LoadFromFile"/>
+            <MenuItem Header="{Binding Path=Language.File}">
+                <MenuItem Header="{Binding Path=Language.New}" Click="CreateNewProject"/>
+                <MenuItem Header="{Binding Path=Language.Save}" Click="SaveToFile"/>
+                <MenuItem Header="{Binding Path=Language.Open}" Click="LoadFromFile"/>
                 <Separator/>
-                <MenuItem Header="Export" Click="ExportProject"/>
+                <MenuItem Header="{Binding Path=Language.Export}" Click="ExportProject"/>
             </MenuItem>
-            <MenuItem Header="Synch" Command="{Binding Path=CommandSynchronize}"/>
+            <MenuItem Header="{Binding Path=Language.Synchronize}" Command="{Binding Path=CommandSynchronize}"/>
         </Menu>
         
         <Grid Grid.Row="1">
@@ -30,20 +30,20 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Header="left" Grid.Column="0">
+            <GroupBox Header="{Binding Path=Language.Languages}" Grid.Column="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <DataGrid AutoGenerateColumns="False" Grid.Row="0" ItemsSource="{Binding Path=LanguageDatas}" SelectedItem="{Binding Path=SelectedLanguage}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Long Name" Width="*" Binding="{Binding LongName}"/>
+                            <DataGridTextColumn Header="{Binding Path=Language.Name}" Width="*" Binding="{Binding LongName}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </GroupBox>
-            
-            <GroupBox Header="right" Grid.Column="1">
+
+            <GroupBox Header="{Binding Path=Language.Values}" Grid.Column="1">
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=SelectedLanguage.Strings}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Key" Width="150" Binding="{Binding Key}"/>
@@ -55,7 +55,23 @@
         </Grid>
         
         <StatusBar Grid.Row="2">
-            
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=Language.Namespace}" VerticalAlignment="Center"/>
+                    <TextBox Margin="5 0 0 0" MinWidth="100" Text="{Binding Path=Namespace}"/>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=Language.ClassName}" VerticalAlignment="Center"/>
+                    <TextBox Margin="5 0 0 0" MinWidth="100" Text="{Binding Path=ClassName}"/>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="10 0 0 0" Content="Export" MinWidth="100" Click="ExportProject"/>
+                </StackPanel>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </Window>

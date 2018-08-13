@@ -14,9 +14,11 @@ namespace LocalizeBuilder.src
     internal class CsCreator
     {
         //Methods
-        public void CreateCsFile(string path,string _namespace, List<LanguageData>data)
+        public void CreateCsFile(string path,string _namespace,string _classname, List<LanguageData>data)
         {
             StringBuilder builder = new StringBuilder();
+            builder.AppendLine("using System.ComponentModel;");
+            builder.AppendLine();
             builder.AppendLine($"namespace {_namespace}");
             builder.AppendLine("{");
             builder.AppendLine("internal enum LanguageEnum");
@@ -29,11 +31,26 @@ namespace LocalizeBuilder.src
                     builder.AppendLine(data[i].LongName);
             }
             builder.AppendLine("}");
-            builder.AppendLine("internal class Language");
+            builder.AppendLine($"internal class {_classname} : INotifyPropertyChanged");
             builder.AppendLine("{");
+            builder.AppendLine("public event PropertyChangedEventHandler PropertyChanged;");
+            builder.AppendLine("public void PropChanged(string property)");
+            builder.AppendLine("{");
+            builder.AppendLine("PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));");
+            builder.AppendLine("}");
+            builder.AppendLine();
             foreach (var str in data.First().Strings)
             {
-                builder.AppendLine($"public string {str.Key} {{get;set;}} = \"{str.Value}\";");
+                builder.AppendLine($"private string _{str.Key.ToLower()} = \"{str.Value}\";");
+            }
+            builder.AppendLine();
+            foreach (var str in data.First().Strings)
+            {
+                builder.AppendLine($"public string {str.Key}");
+                builder.AppendLine("{");
+                builder.AppendLine($"get{{return _{str.Key.ToLower()};}}");
+                builder.AppendLine($"set{{_{str.Key.ToLower()} = value; PropChanged(\"{str.Key}\");}}");
+                builder.AppendLine("}");
             }
             builder.AppendLine("public void SwitchLanguage(LanguageEnum lang_param)");
             builder.AppendLine("{");

@@ -54,12 +54,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="res\Language.cs" />
     <Compile Include="src\CsCreator.cs" />
     <Compile Include="src\INotifyWrapper.cs" />
     <Compile Include="src\LanguageData.cs" />
     <Compile Include="src\RelayCommand.cs" />
     <Compile Include="src\StringUnit.cs" />
     <Compile Include="src\ViewModel.cs" />
+    <Compile Include="src\ViewModelArgs.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,7 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="res\" />
     <Folder Include="win\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

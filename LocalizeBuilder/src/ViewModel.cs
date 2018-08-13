@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LocalizeBuilder.res;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -17,7 +18,10 @@ namespace LocalizeBuilder.src
         private LanguageData _selectedLanguage;
         private ObservableCollection<LanguageData> _languageDatas;
         private string _projectPath;
+        private string _namespace;
+        private string _className;
         //Properties
+        public Language Language { get; set; }
         public ObservableCollection<LanguageData> LanguageDatas
         {
             get { return _languageDatas; }
@@ -45,9 +49,28 @@ namespace LocalizeBuilder.src
                 PropChanged("ProjectPath");
             }
         }
+        public string Namespace
+        {
+            get { return _namespace; }
+            set
+            {
+                _namespace = value;
+                PropChanged("Namespace");
+            }
+        }
+        public string ClassName
+        {
+            get { return _className; }
+            set
+            {
+                _className = value;
+                PropChanged("ClassName");
+            }
+        }
         //Constructors
         private ViewModel()
         {
+            Language = new Language();
             LanguageDatas = new ObservableCollection<LanguageData>();
             CommandAddLanguage = new RelayCommand(AddLanguage);
             CommandSaveToFile = new RelayCommand(SaveToFile);
@@ -81,7 +104,8 @@ namespace LocalizeBuilder.src
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate))
             {
-                formatter.Serialize(stream, LanguageDatas);
+                ViewModelArgs args = new ViewModelArgs(LanguageDatas, SelectedLanguage, Namespace, ClassName);
+                formatter.Serialize(stream, args);
             }
             ProjectPath = path;
         }
@@ -92,8 +116,11 @@ namespace LocalizeBuilder.src
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream stream = new FileStream(path,FileMode.Open))
             {
-                LanguageDatas = (ObservableCollection<LanguageData>)formatter.Deserialize(stream);
-                SelectedLanguage = LanguageDatas.First();
+                ViewModelArgs args = (ViewModelArgs)formatter.Deserialize(stream);
+                LanguageDatas = args.ItemsCollection;
+                SelectedLanguage = args.SelectedItem;
+                Namespace = args.Namespace;
+                ClassName = args.ClassName;
             }
             ProjectPath = path;
         }
@@ -108,7 +135,7 @@ namespace LocalizeBuilder.src
             if (!(param is string path))
                 throw new Exception();
             CsCreator creator = new CsCreator();
-            creator.CreateCsFile(path, "Macro", LanguageDatas.ToList()); // temp
+            creator.CreateCsFile(path, Namespace,ClassName, LanguageDatas.ToList()); // temp
         }
         private void Synchronize(object param)
         {
