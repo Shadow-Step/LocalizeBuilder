@@ -37,7 +37,7 @@
                     </Grid.RowDefinitions>
                     <DataGrid AutoGenerateColumns="False" Grid.Row="0" ItemsSource="{Binding Path=LanguageDatas}" SelectedItem="{Binding Path=SelectedLanguage}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Path=Language.Name}" Width="*" Binding="{Binding LongName}"/>
+                            <DataGridTextColumn Header="Name" Width="*" Binding="{Binding LongName}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
