@@ -31,5 +31,12 @@ namespace LocalizeBuilder.src
                 PropChanged("Value");
             }
         }
+        //Constructor
+        public StringUnit() { }
+        public StringUnit(string key,string value)
+        {
+            Key = key;
+            Value = value;
+        }
     }
 }

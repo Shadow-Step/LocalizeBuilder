@@ -19,7 +19,7 @@ namespace LocalizeBuilder.src
             StringBuilder builder = new StringBuilder();
             builder.AppendLine($"namespace {_namespace}");
             builder.AppendLine("{");
-            builder.AppendLine("internal enum LanguagesEnum");
+            builder.AppendLine("internal enum LanguageEnum");
             builder.AppendLine("{");
             for (int i = 0; i < data.Count; i++)
             {
@@ -29,20 +29,19 @@ namespace LocalizeBuilder.src
                     builder.AppendLine(data[i].LongName);
             }
             builder.AppendLine("}");
-            foreach (var lang in data)
+            builder.AppendLine("internal class Language");
+            builder.AppendLine("{");
+            foreach (var str in data.First().Strings)
             {
-                foreach (var str in lang.Strings)
-                {
-                    builder.AppendLine($"public string {str.Key} {{get;set;}}");
-                }
+                builder.AppendLine($"public string {str.Key} {{get;set;}} = \"{str.Value}\";");
             }
-            builder.AppendLine("public void SwitchLanguage(LanguagesEnum lang_param)");
+            builder.AppendLine("public void SwitchLanguage(LanguageEnum lang_param)");
             builder.AppendLine("{");
             builder.AppendLine("switch (lang_param)");
             builder.AppendLine("{");
             foreach (var lang in data)
             {
-                builder.AppendLine($"case {lang.LongName}:");
+                builder.AppendLine($"case LanguageEnum.{lang.LongName}:");
                 foreach (var str in lang.Strings)
                 {
                     builder.AppendLine($"{str.Key} = \"{str.Value}\";");
@@ -51,7 +50,7 @@ namespace LocalizeBuilder.src
             }
             builder.AppendLine("}");
             builder.AppendLine("}");
-
+            builder.AppendLine("}");
             builder.AppendLine("}");
 
             using (StreamWriter stream = new StreamWriter(path))
