@@ -122,13 +122,13 @@ namespace LocalizeBuilder.src
                 {
                     var res = from x in LanguageDatas[i].Strings where x.Key == item.Key select x;
                     if(res.Count() == 0)
-                    LanguageDatas[i].Strings.Add(new StringUnit(item.Key, $"!{item.Value}"));
+                    LanguageDatas[i].Strings.Add(new StringUnit(item.Key, $"!->{item.Value}"));
                 }
                 foreach (var item in LanguageDatas[i].Strings)
                 {
                     var res = from x in pattern.Strings where x.Key == item.Key select x;
                     if (res.Count() == 0)
-                        pattern.Strings.Add(new StringUnit(item.Key, $"!{item.Value}"));
+                        pattern.Strings.Add(new StringUnit(item.Key, $"!->{item.Value}"));
                 }
             }
         }

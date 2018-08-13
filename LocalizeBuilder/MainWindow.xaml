@@ -47,7 +47,7 @@
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=SelectedLanguage.Strings}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Key" Width="150" Binding="{Binding Key}"/>
-                        <DataGridTextColumn Header="Value" Width="*" Binding="{Binding Value}"/>
+                        <DataGridTextColumn Header="Value" Width="*" Binding="{Binding Value,ValidatesOnDataErrors=True}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
